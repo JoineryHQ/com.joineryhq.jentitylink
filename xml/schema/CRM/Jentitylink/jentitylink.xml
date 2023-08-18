@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Jentitylink</base>
+  <class>Jentitylink</class>
+  <name>civicrm_jentitylink</name>
+  <comment>Links configured by Joinery Entity Links extension</comment>
+  <log>true</log>
+
+  <field>
+    <name>id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Unique Jentitylink ID</comment>
+    <html>
+      <type>Number</type>
+    </html>
+  </field>
+  <primaryKey>
+    <name>id</name>
+    <autoincrement>true</autoincrement>
+  </primaryKey>
+
+  <field>
+    <name>entity_name</name>
+    <type>varchar</type>
+    <length>64</length>
+    <comment>e.g. "Contact"</comment>
+  </field>
+
+  <field>
+    <name>entity_type</name>
+    <type>varchar</type>
+    <length>64</length>
+    <comment>e.g. "Individual"</comment>
+  </field>
+  
+  <field>
+    <name>entity_sub_type</name>
+    <type>varchar</type>
+    <length>64</length>
+    <comment>e.g. "Student"</comment>
+  </field>
+  
+  <field>
+    <name>permission</name>
+    <type>varchar</type>
+    <length>128</length>
+    <comment>require this permisison to display the link</comment>
+  </field>
+
+  <field>
+    <name>name</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>user-visible link text</comment>
+  </field>
+
+  <field>
+    <name>title</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>link title attribute</comment>
+  </field>
+
+  <field>
+    <name>url</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>link url</comment>
+  </field>
+
+  <field>
+    <name>qs</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>link query string</comment>
+  </field>
+
+  <field>
+    <name>class</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>link class attribute</comment>
+  </field>
+
+  <field>
+    <name>weight</name>
+    <type>int unsinged</type>
+    <comment>link weight/order</comment>
+  </field>
+
+
+</table>
