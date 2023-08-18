@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Jentitylink</base>
+  <class>JentitylinkOp</class>
+  <name>civicrm_jentitylink_op</name>
+  <comment>Relevant op value for Joinery Entity Links</comment>
+  <log>true</log>
+
+  <field>
+    <name>id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Unique JentitylinkOp ID</comment>
+    <html>
+      <type>Number</type>
+    </html>
+  </field>
+  <primaryKey>
+    <name>id</name>
+    <autoincrement>true</autoincrement>
+  </primaryKey>
+
+  <field>
+    <name>jentity_link_id</name>
+    <type>int unsigned</type>
+    <comment>FK to jentity_link</comment>
+  </field>
+  <foreignKey>
+    <name>jentity_link_id</name>
+    <table>civicrm_jentity_link</table>
+    <key>id</key>
+    <onDelete>CASCADE</onDelete>
+  </foreignKey>
+
+  <field>
+    <name>op</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>e.g. view.contact.activity</comment>
+  </field>
+</table>
