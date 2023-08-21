@@ -3,17 +3,17 @@
 use CRM_Jentitylink_ExtensionUtil as E;
 // phpcs:enable
 
-class CRM_Jentitylink_BAO_jentitylink extends CRM_Jentitylink_DAO_jentitylink {
+class CRM_Jentitylink_BAO_jentitylink extends CRM_Jentitylink_DAO_Jentitylink {
 
   /**
    * Create a new Jentitylink based on array-data
    *
    * @param array $params key-value pairs
-   * @return CRM_Jentitylink_DAO_jentitylink|NULL
+   * @return CRM_Jentitylink_DAO_Jentitylink|NULL
    */
   /*
   public static function create($params) {
-    $className = 'CRM_Jentitylink_DAO_jentitylink';
+    $className = 'CRM_Jentitylink_DAO_Jentitylink';
     $entityName = 'Jentitylink';
     $hook = empty($params['id']) ? 'create' : 'edit';
 

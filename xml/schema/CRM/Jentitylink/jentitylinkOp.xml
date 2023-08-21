@@ -22,13 +22,13 @@
   </primaryKey>
 
   <field>
-    <name>jentity_link_id</name>
+    <name>jentitylink_id</name>
     <type>int unsigned</type>
-    <comment>FK to jentity_link</comment>
+    <comment>FK to jentitylink</comment>
   </field>
   <foreignKey>
-    <name>jentity_link_id</name>
-    <table>civicrm_jentity_link</table>
+    <name>jentitylink_id</name>
+    <table>civicrm_jentitylink</table>
     <key>id</key>
     <onDelete>CASCADE</onDelete>
   </foreignKey>

@@ -4,7 +4,7 @@
 return [
   [
     'name' => 'Jentitylink',
-    'class' => 'CRM_Jentitylink_DAO_jentitylink',
+    'class' => 'CRM_Jentitylink_DAO_Jentitylink',
     'table' => 'civicrm_jentitylink',
   ],
 ];
