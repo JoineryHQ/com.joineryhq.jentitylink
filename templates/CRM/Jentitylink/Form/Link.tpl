@@ -3,6 +3,13 @@
 <div class="crm-submit-buttons"></div>
 
 {* FIELD EXAMPLE: OPTION 1 (AUTOMATIC LAYOUT) *}
+{if $id}
+  <div class="crm-section">
+    <div class="label">{ts}ID{/ts}</div>
+    <div class="content">{$id}</div>
+    <div class="clear"></div>
+  </div>
+{/if}
 
 {foreach from=$elementNames item=elementName}
   <div class="crm-section">
