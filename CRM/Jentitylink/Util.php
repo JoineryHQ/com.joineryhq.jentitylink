@@ -29,4 +29,21 @@ class CRM_Jentitylink_Util {
     $trimmed = trim($paddedString, CRM_Core_DAO::VALUE_SEPARATOR);
     return CRM_Utils_Array::explodePadded($trimmed);
   }
+
+  public static function buildInspectionLink($op, $objectName, $objectID, $links, $mask, $values) {
+    $args = [
+      'op' => $op,
+      'objectName' => $objectName,
+      'objectID' => $objectID
+    ];
+    $link = [
+      'name' => __METHOD__,
+      'url' => "#" . http_build_query($args),
+      'title' => 'Click for pop-up details',
+      'class' => 'jentitylink-inspection-link',
+    ];    
+    CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.jentitylink', 'js/inspectionLink.js');
+    CRM_Core_Resources::singleton()->addStyleFile('com.joineryhq.jentitylink', 'css/inspectionLink.css');
+    return $link;
+  }
 }

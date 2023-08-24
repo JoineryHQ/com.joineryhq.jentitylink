@@ -3,7 +3,7 @@
 {else}
 
   <div class="help">
-    <p>{ts}Manage your Entity Links.{/ts}</p>
+    <p>{ts}Manage your Entity Links.{/ts}</p> <a href="#">Enable inspection</a>
   </div>
 
   <div class="crm-content-block crm-block">
