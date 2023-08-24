@@ -192,7 +192,7 @@ class CRM_Jentitylink_Form_Link extends CRM_Admin_Form {
    */
   public function setDefaultValues() {
     if ($this->_id && (!($this->_action & CRM_Core_Action::DELETE))) {
-      $result = _eventbrite_civicrmapi('Jentitylink', 'getSingle', array(
+      $result = _jentitylink_civicrmapi('Jentitylink', 'getSingle', array(
         'id' => $this->_id,
       ));
       $defaultValues = $result;

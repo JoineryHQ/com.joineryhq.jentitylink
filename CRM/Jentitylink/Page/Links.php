@@ -75,12 +75,6 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
    * @inheritDoc
    */
   public function run() {
-//    $breadCrumb = array(
-//      'title' => E::ts('Entity Links'),
-//      'url' => CRM_Utils_System::url('civicrm/admin/eventbrite/manage/events', 'action=browse&reset=1'),
-//    );
-//    CRM_Utils_System::appendBreadCrumb(array($breadCrumb));
-
     return parent::run();
   }
 
@@ -89,7 +83,7 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
    */
   public function browse() {
     parent::browse();
-    
+
     $opsByLinkId = [];
     $jentitylinkOps = \Civi\Api4\JentitylinkOp::get()
       ->setCheckPermissions(FALSE)
@@ -97,7 +91,7 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
       ->execute();
     foreach ($jentitylinkOps as $jentitylinkOp) {
       $opsByLinkId[$jentitylinkOp['jentitylink_id']][] = $jentitylinkOp['op'];
-    }    
+    }
     $this->assign('opsByLinkId', $opsByLinkId);
 
     $rows = $this->get_template_vars('rows');
