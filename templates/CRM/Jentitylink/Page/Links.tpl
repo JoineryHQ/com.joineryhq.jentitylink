@@ -1,5 +1,5 @@
 {if $action eq 1 || $action eq 2 || $action eq 4 || $action eq 8}
-  {include file="CRM/Eventbrite/Form/Manage/Event.tpl"}
+  {include file="CRM/Jentitylink/Form/Link.tpl"}
 {else}
 
   <div class="help">
