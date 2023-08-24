@@ -31,15 +31,8 @@
   <field>
     <name>entity_type</name>
     <type>varchar</type>
-    <length>64</length>
-    <comment>e.g. "Individual"</comment>
-  </field>
-  
-  <field>
-    <name>entity_sub_type</name>
-    <type>varchar</type>
-    <length>64</length>
-    <comment>e.g. "Student"</comment>
+    <length>255</length>
+    <comment>e.g. "Individual"; stores packed arrays delimited with CRM_Core_DAO::VALUE_SEPARATOR</comment>
   </field>
   
   <field>
@@ -68,13 +61,6 @@
     <type>varchar</type>
     <length>255</length>
     <comment>link url</comment>
-  </field>
-
-  <field>
-    <name>qs</name>
-    <type>varchar</type>
-    <length>255</length>
-    <comment>link query string</comment>
   </field>
 
   <field>

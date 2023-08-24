@@ -10,7 +10,7 @@ use CRM_Jentitylink_ExtensionUtil as E;
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_links/
  */
-function jentitylink_civicrm_links(string $op, string $objectName, int $objectID, array &$links, int &$mask = NULL, array &$values): void {
+function jentitylink_civicrm_links(string $op, string $objectName, $objectID, array &$links, int &$mask = NULL, array &$values): void {
   static $linkBuilders = [];
   $key = "$op|$objectName";
   if (!isset($linkBuilders[$key])) {
@@ -18,6 +18,7 @@ function jentitylink_civicrm_links(string $op, string $objectName, int $objectID
   }
   $newLinks = $linkBuilders[$key]->getEntityLinks($objectID);
   $links = array_merge($links, $newLinks);
+  $a = 1;
 }
 
 /**
@@ -74,3 +75,47 @@ function jentitylink_civicrm_enable(): void {
 //  ]);
 //  _jentitylink_civix_navigationMenu($menu);
 //}
+
+/**
+ * Log CiviCRM API errors to CiviCRM log.
+ */
+function _jentitylink_log_api_error(CiviCRM_API3_Exception $e, $entity, $action, $contextMessage = NULL, $params) {
+  $message = "CiviCRM API Error '{$entity}.{$action}': " . $e->getMessage() . '; ';
+  $message .= "API parameters when this error happened: " . json_encode($params) . '; ';
+  $bt = debug_backtrace();
+  $error_location = "{$bt[1]['file']}::{$bt[1]['line']}";
+  $message .= "Error API called from: $error_location";
+  CRM_Core_Error::debug_log_message($message);
+
+  $jentitylinkLogMessage = $message;
+  if ($contextMessage) {
+    $jentitylinkLogMessage .= "; Context: $contextMessage";
+  }
+}
+
+/**
+ * CiviCRM API wrapper. Wraps with try/catch, redirects errors to log, saves
+ * typing.
+ *
+ * @param string $entity as in civicrm_api3($ENTITY, ..., ...)
+ * @param string $action as in civicrm_api3(..., $ACTION, ...)
+ * @param array $params as in civicrm_api3(..., ..., $PARAMS)
+ * @param string $contextMessage Additional message for inclusion in log upon any failures.
+ * @param bool $silence_errors If TRUE, throw any exceptions we catch; otherwise don't.
+ *
+ * @return Array result of civicrm_api3()
+ * @throws CiviCRM_API3_Exception
+ */
+function _jentitylink_civicrmapi($entity, $action, $params, $contextMessage = NULL, $silence_errors = FALSE) {
+  try {
+    $result = civicrm_api3($entity, $action, $params);
+  }
+  catch (CiviCRM_API3_Exception $e) {
+    _jentitylink_log_api_error($e, $entity, $action, $contextMessage, $params);
+    if (!$silence_errors) {
+      throw $e;
+    }
+  }
+
+  return $result;
+}

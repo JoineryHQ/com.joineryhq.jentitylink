@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/admin/jentitylink/manage/links</path>
+    <page_callback>CRM_Jentitylink_Page_Links</page_callback>
+    <title>Links</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/admin/jentitylink/manage/link</path>
+    <page_callback>CRM_Jentitylink_Form_Link</page_callback>
+    <title>Link</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>

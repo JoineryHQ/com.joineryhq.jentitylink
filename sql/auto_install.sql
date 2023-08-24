@@ -37,13 +37,11 @@ SET FOREIGN_KEY_CHECKS=1;
 CREATE TABLE `civicrm_jentitylink` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique Jentitylink ID',
   `entity_name` varchar(64) COMMENT 'e.g. \"Contact\"',
-  `entity_type` varchar(64) COMMENT 'e.g. \"Individual\"',
-  `entity_sub_type` varchar(64) COMMENT 'e.g. \"Student\"',
+  `entity_type` varchar(255) COMMENT 'e.g. \"Individual\"; stores packed arrays delimited with CRM_Core_DAO::VALUE_SEPARATOR',
   `permission` varchar(128) COMMENT 'require this permisison to display the link',
   `name` varchar(255) COMMENT 'user-visible link text',
   `title` varchar(255) COMMENT 'link title attribute',
   `url` varchar(255) COMMENT 'link url',
-  `qs` varchar(255) COMMENT 'link query string',
   `class` varchar(255) COMMENT 'link class attribute',
   `weight` int unsigned COMMENT 'link weight/order',
   PRIMARY KEY (`id`)

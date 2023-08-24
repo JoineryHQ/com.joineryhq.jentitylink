@@ -3,7 +3,7 @@
 use CRM_Jentitylink_ExtensionUtil as E;
 // phpcs:enable
 
-class CRM_Jentitylink_BAO_jentitylinkOp extends CRM_Jentitylink_DAO_JentitylinkOp {
+class CRM_Jentitylink_BAO_JentitylinkOp extends CRM_Jentitylink_DAO_JentitylinkOp {
 
   /**
    * Create a new JentitylinkOp based on array-data

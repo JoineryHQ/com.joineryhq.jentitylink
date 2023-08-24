@@ -11,9 +11,6 @@ class CRM_Jentitylink_Linkbuilder {
   var $objectName;
   var $links = [];
   var $linkMeta = [];
-  var $supportedEntityTypes = [
-    'contact',
-  ];
 
   public function __construct($op, $objectName) {
     $this->op = strtolower($op);
@@ -28,21 +25,18 @@ class CRM_Jentitylink_Linkbuilder {
       ->addWhere('op', '=', $op)
       ->addChain('jentitylink', \Civi\Api4\Jentitylink::get()
         ->setCheckPermissions(FALSE)
-        ->addWhere('id', '=', '$jentitylink_id')
+//        ->addWhere('id', '=', '$jentitylink_id')
         ->addWhere('entity_name', '=', $objectName),
       0)
       ->execute();
     foreach ($jentitylinkOps as $jentitylinkOp) {
       $link = $jentitylinkOp['jentitylink'];
+      $link['entity_type'] = CRM_Jentitylink_Util::arrayExplodePaddedTrim($link['entity_type']);
+      
       // If user doesn't have permission, skip this link.
       if (!CRM_Core_Permission::check([$link['permission']])) {
         continue;
       }
-      // Merge url and qs properties into one. Unfortunately, CiviCRM core seems
-      // to either qs or not, variously, depending on context. To avoid inconsistency,
-      // we just merge qs into url here.
-      $link['url'] .= "?{$link['qs']}";
-      unset($link['qs']);
 
       // Separate link values from link meta.
       $linkKeys = [
@@ -56,7 +50,6 @@ class CRM_Jentitylink_Linkbuilder {
       $linkMetaKeys = [
         'entity_name',
         'entity_type',
-        'entity_sub_type',
         'permission',
       ];
       $this->linkMeta[$link['id']] = array_intersect_key($link, array_flip($linkMetaKeys));
@@ -68,10 +61,7 @@ class CRM_Jentitylink_Linkbuilder {
       ) {
         $this->linkMeta[$link['id']]['is_eid_replace'] = TRUE;
       }
-      if (
-        !empty($link['entity_type'])
-        || !empty($link['entity_sub_type'])
-      ) {
+      if (!empty($link['entity_type'])) {
         // Note that we must load each entity to determine whether this link
         // applies or not.
         $this->needsEntityLoad = TRUE;
@@ -87,7 +77,7 @@ class CRM_Jentitylink_Linkbuilder {
   public function getEntityLinks($objectID) {
     $entityLinks = [];
     if (!$this->isObjectNameSupported()) {
-      // Not all entity types are supported.
+      // Not all entity types are supported. Those get an empty array.
       return $entityLinks;
     }
 
@@ -104,30 +94,36 @@ class CRM_Jentitylink_Linkbuilder {
         ->execute()
         ->first();
       foreach ($this->linkMeta as $linkMetaId => $linkMeta) {
-        if (
-          !empty($linkMeta['entity_type'])
-          && ($linkMeta['entity_type'] != $entity['contact_type'])
-        ) {
-          // Entity does not match link entity type, so skip this link.
-          continue;
+        $includeLink = FALSE;
+        foreach ($linkMeta['entity_type'] as $limitEntityType) {
+          list($limitContactType, $limitContactSubType) = explode('__', $limitEntityType);
+          if ($limitContactSubType && !empty($entity['contact_sub_type']) && in_array($limitContactSubType, $entity['contact_sub_type'])) {
+            // If this is a limit with a sub-type (e.g. 'Individual: Student'), and the contact
+            // has that sub-type, include the link. (No need to compare on Type if SubType matches,
+            // because all Type and SubType names must be unique.)
+            $includeLink = TRUE;
+          }
+          elseif (empty($limitContactSubType) && empty($entity['contact_sub_type']) && ($entity['contact_type'] == $limitContactType)) {
+            // If this is a limit WITHOUT a sub-type (e.g. 'Individual'), and the contact
+            // has NO sub-type, and the limit matches the contact type, include the link.
+            $includeLink = TRUE;
+          }
+          if ($includeLink) {
+            // We have one matching condition, which is enough, so don't bother
+            // evaluating the rest.
+            $entityLinks[] = $this->links[$linkMetaId];
+            break;                        
+          }
         }
-        if (
-          !empty($linkMeta['entity_sub_type'])
-          && (!in_array($linkMeta['entity_sub_type'], $entity['contact_sub_type'] ?? array()))
-        ) {
-          // Entity does not match link entity sub-type, so skip this link.
-          continue;
-        }
-        // Make a copy of the link array, so we can modify it per-contact.
-        $link = $this->links[$linkMetaId];
-        if ($linkMeta['is_eid_replace']) {
-          // Modify the link url and qs by replacing '%%eid%%' with the entity id.
-          // Unfortunately, CiviCRM core seems to handle %% repladements
-          // differently in different contexts, so we just do our own replacement here.
-          $replaceValues = ['eid' => $objectID];
-          CRM_Core_Action::replace($link['url'], $replaceValues);
-        }
-        $entityLinks[] = $link;
+      }
+    }
+    foreach ($entityLinks as $linkId => &$link) {
+      if ($this->linkMeta[$linkId]['is_eid_replace']) {
+        // Modify the link url by replacing '%%eid%%' with the entity id.
+        // Unfortunately, CiviCRM core seems to handle %% repladements
+        // differently in different contexts, so we just do our own replacement here.
+        $replaceValues = ['eid' => $objectID];
+        CRM_Core_Action::replace($link['url'], $replaceValues);
       }
     }
     return $entityLinks;
@@ -139,7 +135,12 @@ class CRM_Jentitylink_Linkbuilder {
    * @return Bool
    */
   public function isObjectNameSupported() {
-    return (bool) in_array($this->objectName, $this->supportedEntityTypes);
+    return (bool) array_key_exists($this->objectName, self::getSupportedEntityNames());
   }
 
+  public static function getSupportedEntityNames() {
+    return [
+      'contact' => E::ts('Contact'),
+    ];
+  }
 }
