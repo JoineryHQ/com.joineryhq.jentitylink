@@ -18,6 +18,16 @@ class CRM_Jentitylink_Form_Link extends CRM_Admin_Form {
 
   public function buildQuickForm() {
     parent::buildQuickForm();
+    if ($this->_action & CRM_Core_Action::DELETE) {
+      CRM_Utils_System::setTitle('Delete Entity Link');
+    }
+    elseif ($this->_action & CRM_Core_Action::UPDATE) {
+      CRM_Utils_System::setTitle('Edit Entity Link');
+    }
+    elseif ($this->_action & CRM_Core_Action::ADD) {
+      CRM_Utils_System::setTitle('Create Entity Link');
+    }
+
 
     if ($this->_action & CRM_Core_Action::DELETE) {
       $descriptions['delete_warning'] = E::ts('Are you sure you want to delete this link configuration?');
@@ -103,8 +113,8 @@ class CRM_Jentitylink_Form_Link extends CRM_Admin_Form {
         // is required
         FALSE,
         // attributes
-        ['class' => 'crm-select2', 'placeholder' => E::ts('- No restriction -'), 'style' => 'width: 30rem;']        
-        
+        ['class' => 'crm-select2', 'placeholder' => E::ts('- No restriction -'), 'style' => 'width: 30rem;']
+
       );
 
       $this->add(
