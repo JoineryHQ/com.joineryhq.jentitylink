@@ -64,17 +64,17 @@ function jentitylink_civicrm_enable(): void {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
  */
-//function jentitylink_civicrm_navigationMenu(&$menu): void {
-//  _jentitylink_civix_insert_navigation_menu($menu, 'Mailings', [
-//    'label' => E::ts('New subliminal message'),
-//    'name' => 'mailing_subliminal_message',
-//    'url' => 'civicrm/mailing/subliminal',
-//    'permission' => 'access CiviMail',
-//    'operator' => 'OR',
-//    'separator' => 0,
-//  ]);
-//  _jentitylink_civix_navigationMenu($menu);
-//}
+function jentitylink_civicrm_navigationMenu(&$menu): void {
+  _jentitylink_civix_insert_navigation_menu($menu, 'Administer/Customize Data and Screens', [
+    'label' => E::ts('Entity Links'),
+    'name' => 'jentitylink_list',
+    'url' => 'civicrm/admin/jentitylink/manage/links?reset=1&action=browse',
+    'permission' => 'administer CiviCRM',
+    'operator' => 'AND',
+    'separator' => 0,
+  ]);
+  _jentitylink_civix_navigationMenu($menu);
+}
 
 /**
  * Log CiviCRM API errors to CiviCRM log.
