@@ -44,7 +44,7 @@ class CRM_Jentitylink_Util {
       ];
       $link = [
         'name' => 'Context Inspector',
-        'url' => "#" . http_build_query($args),
+        'url' => "/civicrm/admin/jentitylink/link/info?" . http_build_query($args),
         'title' => 'Click for pop-up details',
         'class' => 'jentitylink-inspection-link',
       ];

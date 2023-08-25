@@ -6,4 +6,10 @@
     <title>Entity Links</title>
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/admin/jentitylink/link/info</path>
+    <page_callback>CRM_Jentitylink_Page_LinkInfo</page_callback>
+    <title>Entity Links: Context Inspector</title>
+    <access_arguments>administer CiviCRM</access_arguments>
+  </item>
 </menu>
