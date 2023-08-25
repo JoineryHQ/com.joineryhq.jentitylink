@@ -20,8 +20,7 @@ function jentitylink_civicrm_links(string $op, string $objectName, $objectID, ar
   $links = array_merge($links, $newLinks);
   
   // Also add debugging/inspection links if so configured
-  $inspectionLink = CRM_Jentitylink_Util::buildInspectionLink($op, $objectName, $objectID, $links, $mask, $values);
-  if ($inspectionLink) {
+  if($inspectionLink = CRM_Jentitylink_Util::buildInspectionLink($op, $objectName, $objectID, $links, $mask, $values)) {
     $links[] = $inspectionLink;
   }
   

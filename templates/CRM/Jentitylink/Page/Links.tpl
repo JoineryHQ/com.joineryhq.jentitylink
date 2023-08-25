@@ -66,13 +66,13 @@
   </div>
 
   <div class="crm-accordion-wrapper collapsed">
-    <div class="crm-accordion-header">{ts}Context Inspector{/ts}: <span id="jentitylink-inspector-status-label"></span></div>
+    <div class="crm-accordion-header">{ts}Context Inspector{/ts}: <span id="jentitylink-inspector-status-label" class="{$inspectorStatusLabelClass}">{$inspectorStatusLabel}</span></div>
     <div class="crm-accordion-body">
     <p>
       {ts}It can be hard to pick the right context when configuring an Entity Link. The Context Inspector will add helpful information in the live CiviCRM interface at places where Entity Links could place your configured links.{/ts}
     </p>
-    <input id="jentitylink-inspector-set-value" class="jentitylink-toggle" type="checkbox" {$jentitylink_inspector_set_value_checked}/><label for="jentitylink-inspector-set-value">Context Inspector status</label>
-
+      {crmButton id="inspectorButton" p="civicrm/admin/jentitylink/manage/links" q="action=browse&reset=1&setInspector=$inspectorButtonSetValue" icon="$inspectorButtonIcon" class="no-popup inspector-set-status-$inspectorButtonSetValue"}{$inspectorButtonLabel}{/crmButton}
+    <div class="clear"></div>
   </div></div>
 
 {/if}

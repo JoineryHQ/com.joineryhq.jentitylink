@@ -31,20 +31,30 @@ class CRM_Jentitylink_Util {
   }
 
   public static function buildInspectionLink($op, $objectName, $objectID, $links, $mask, $values) {
-    $args = [
-      'op' => $op,
-      'objectName' => $objectName,
-      'objectID' => $objectID
-    ];
-    $link = [
-      'name' => __METHOD__,
-      'url' => "#" . http_build_query($args),
-      'title' => 'Click for pop-up details',
-      'class' => 'jentitylink-inspection-link',
-    ];    
-    CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.jentitylink', 'js/inspectionLink.js');
-    CRM_Core_Resources::singleton()->addStyleFile('com.joineryhq.jentitylink', 'css/inspectionLink.css');
-    return $link;
+    static $inspectorStatus;
+    if (!isset($inspectorStatus)) {
+      $userCid = CRM_Core_Session::singleton()->getLoggedInContactID();
+      $inspectorStatus = (bool) Civi::contactSettings($userCid)->get('jentitylink_enable_inspector');
+    }
+    if ($inspectorStatus) {
+      $args = [
+        'op' => $op,
+        'objectName' => $objectName,
+        'objectID' => $objectID
+      ];
+      $link = [
+        'name' => 'Context Inspector',
+        'url' => "#" . http_build_query($args),
+        'title' => 'Click for pop-up details',
+        'class' => 'jentitylink-inspection-link',
+      ];
+      CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.jentitylink', 'js/inspectionLink.js');
+      CRM_Core_Resources::singleton()->addStyleFile('com.joineryhq.jentitylink', 'css/inspectionLink.css');
+      return $link;
+    }
+    else {
+      return FALSE;
+    }
   }
 
 }

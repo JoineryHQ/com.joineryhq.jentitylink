@@ -63,6 +63,31 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
    * @inheritDoc
    */
   public function browse() {
+    $jsVars = [];
+    $userCid = CRM_Core_Session::singleton()->getLoggedInContactID();
+    $setInspector = CRM_Utils_Request::retrieveValue('setInspector', 'Int');
+    if (isset($setInspector)) {
+      // We have a request to update the inpector setting. But we won't bother
+      // unless it's different from the current setting.
+      $initialSettings = \Civi\Api4\Setting::get()
+        ->addSelect('jentitylink_enable_inspector')
+        ->setContactId($userCid)
+        ->execute();
+      $initialInspectorStatus = $initialSettings[0]['value'];
+
+      $newInspectorStatus = (bool)$setInspector;
+      if ($newInspectorStatus != $initialInspectorStatus) {
+        $results = \Civi\Api4\Setting::set()
+          ->addValue('jentitylink_enable_inspector', $newInspectorStatus)
+          ->setContactId($userCid)
+          ->execute();
+        if ($setInspector) {
+          // Tell JS so we can highlight the inspector links on this page.
+          $jsVars['inspectorEnabledNow'] = TRUE;
+        }
+      }
+    }
+
     parent::browse();
 
     $opsByLinkId = [];
@@ -86,13 +111,36 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
 
 
     // Add extra css and js for Context Inspector setting.
-    $userCid = CRM_Core_Session::singleton()->getLoggedInContactID();
+    $settings = \Civi\Api4\Setting::get()
+      ->addSelect('jentitylink_enable_inspector')
+      ->setContactId($userCid)
+      ->execute();
+    $inspectorStatus = $settings[0]['value'];
+    if ($inspectorStatus) {
+      $inspectorButtonLabel = E::ts('Disable Context Inspector');
+      $inspectorButtonIcon = 'ban';
+      $inspectorButtonSetValue = 0;
+      $inspectorStatusLabel = E::ts('On');
+      $inspectorStatusLabelClass = E::ts('status-1');
+    }
+    else {
+      $inspectorButtonLabel = E::ts('Enable Context Inspector');
+      $inspectorButtonIcon = 'bolt';
+      $inspectorButtonSetValue = 1;
+      $inspectorStatusLabel = E::ts('Off');
+      $inspectorStatusLabelClass = E::ts('status-0');
+    }
+    $this->assign('inspectorButtonLabel', $inspectorButtonLabel);
+    $this->assign('inspectorButtonIcon', $inspectorButtonIcon);
+    $this->assign('inspectorButtonSetValue', $inspectorButtonSetValue);
+    $this->assign('inspectorStatusLabel', $inspectorStatusLabel);
+    $this->assign('inspectorStatusLabelClass', $inspectorStatusLabelClass);
+
     $inspectorStatus = Civi::contactSettings($userCid)->get('jentitylink_enable_inspector');
     if ($inspectorStatus) {
       $this->assign('jentitylink_inspector_set_value_checked', 'checked');
     }
-    $vars = ['userCid' => $userCid];
-    CRM_Core_Resources::singleton()->addVars('jentitylink', $vars);
+    CRM_Core_Resources::singleton()->addVars('jentitylink', $jsVars);
     CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.jentitylink', 'js/CRM_Jentitylink_Page_Links.js');
     CRM_Core_Resources::singleton()->addStyleFile('com.joineryhq.jentitylink', 'css/CRM_Jentitylink_Page_Links.css');
 
