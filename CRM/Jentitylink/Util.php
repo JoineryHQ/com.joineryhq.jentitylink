@@ -46,4 +46,5 @@ class CRM_Jentitylink_Util {
     CRM_Core_Resources::singleton()->addStyleFile('com.joineryhq.jentitylink', 'css/inspectionLink.css');
     return $link;
   }
+
 }

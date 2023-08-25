@@ -33,25 +33,6 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
    * @inheritDoc
    */
   public function &links() {
-    // Note on array keys:  for the following reasons, we're using non-existent
-    // values of CRM_Core_Action::[constants] for array keys:
-    //   * We want all the goodies that come with the link-building code invoked
-    //     by parent::browse(). The alternative is hard-coding in the template or
-    //     some other klunky thing, but we lose soem of those goodies.
-    //   * Anyone who can access this page should have all the actions, so the
-    //     one thing we don't need is permissions handling.
-    //   * The link-building code invoked by parent::browse() expects a limited
-    //     number of possible array keys, such as CRM_Core_Action::DELETE. We're
-    //     using a couple of those, but also using some of our own. We could abuse
-    //     some rately used ones like CRM_Core_Action::FOLLOWUP, but that becomes
-    //     nonsensical after doing it once or twice.  So for these actions of our
-    //     own, we need to create some new array key.
-    //   * Any key with a value of CRM_Core_Action::MAX_ACTION or greater will
-    //     cause some other keys to go missing (namely CRM_Core_Action::DELETE),
-    //     so once we start down this path for one action, we need to stick to
-    //     it for the rest of them.
-    //   * No negative side-effects of this approach were found in development.
-    //     If they arise, we should re-think this.
     if (!(self::$_links)) {
       self::$_links = array(
         (CRM_Core_Action::UPDATE) => array(
@@ -102,6 +83,18 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
     $this->assign('rows', $rows);
     $this->assign('entity_type_options', CRM_Jentitylink_Util::getEntityTypeOptions());
     $this->assign('entity_name_options', CRM_Jentitylink_Linkbuilder::getSupportedEntityNames());
+
+
+    // Add extra css and js for Context Inspector setting.
+    $userCid = CRM_Core_Session::singleton()->getLoggedInContactID();
+    $inspectorStatus = Civi::contactSettings($userCid)->get('jentitylink_enable_inspector');
+    if ($inspectorStatus) {
+      $this->assign('jentitylink_inspector_set_value_checked', 'checked');
+    }
+    $vars = ['userCid' => $userCid];
+    CRM_Core_Resources::singleton()->addVars('jentitylink', $vars);
+    CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.jentitylink', 'js/CRM_Jentitylink_Page_Links.js');
+    CRM_Core_Resources::singleton()->addStyleFile('com.joineryhq.jentitylink', 'css/CRM_Jentitylink_Page_Links.css');
 
   }
 
