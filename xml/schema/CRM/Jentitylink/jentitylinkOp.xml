@@ -25,6 +25,7 @@
     <name>jentitylink_id</name>
     <type>int unsigned</type>
     <comment>FK to jentitylink</comment>
+    <required>TRUE</required>
   </field>
   <foreignKey>
     <name>jentitylink_id</name>

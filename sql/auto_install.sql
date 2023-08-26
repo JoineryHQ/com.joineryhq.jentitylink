@@ -57,7 +57,7 @@ ENGINE=InnoDB;
 -- *******************************************************/
 CREATE TABLE `civicrm_jentitylink_op` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique JentitylinkOp ID',
-  `jentitylink_id` int unsigned COMMENT 'FK to jentitylink',
+  `jentitylink_id` int unsigned NOT NULL COMMENT 'FK to jentitylink',
   `op` varchar(255) COMMENT 'e.g. view.contact.activity',
   PRIMARY KEY (`id`),
   CONSTRAINT FK_civicrm_jentitylink_op_jentitylink_id FOREIGN KEY (`jentitylink_id`) REFERENCES `civicrm_jentitylink`(`id`) ON DELETE CASCADE

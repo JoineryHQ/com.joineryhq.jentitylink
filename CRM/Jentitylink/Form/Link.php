@@ -238,11 +238,15 @@ class CRM_Jentitylink_Form_Link extends CRM_Admin_Form {
         foreach ($existingLinkOps['values'] as $linkOp) {
           $result = _jentitylink_civicrmapi('JentitylinkOp', 'delete', ['id' => $linkOp['id']]);
         }
+        $linkId = $this->_id;
+      }
+      else {
+        $linkId = $link['id'];
       }
 
       foreach ($submitted['ops'] as $op) {
         $apiParams = [
-          'jentitylink_id' => $this->_id,
+          'jentitylink_id' => $linkId,
           'op' => $op,
         ];
         $linkOp = _jentitylink_civicrmapi('JentitylinkOp', 'create', $apiParams);
