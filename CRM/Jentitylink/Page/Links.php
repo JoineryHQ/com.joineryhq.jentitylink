@@ -39,13 +39,13 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
           'name' => E::ts('Edit'),
           'url' => 'civicrm/admin/jentitylink/manage/links/',
           'qs' => 'action=update&id=%%id%%&reset=1',
-          'title' => E::ts('Edit Entity Link'),
+          'title' => E::ts('Edit Entity Navigation Link'),
         ),
         (CRM_Core_Action::DELETE) => array(
           'name' => E::ts('Delete'),
           'url' => 'civicrm/admin/jentitylink/manage/links/',
           'qs' => 'action=delete&id=%%id%%',
-          'title' => E::ts('Delete Entity Link'),
+          'title' => E::ts('Delete Entity Navigation Link'),
         ),
       );
     }
@@ -157,7 +157,7 @@ class CRM_Jentitylink_Page_Links extends CRM_Core_Page_Basic {
    * @inheritDoc
    */
   public function editName() {
-    return E::ts('Entity Link');
+    return E::ts('Entity Navigation Links');
   }
 
   /**

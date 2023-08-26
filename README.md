@@ -1,4 +1,4 @@
-# com.joineryhq.jentitylink
+# CiviCRM: Entity Navigation Links
 
 ![Screenshot](/images/screenshot.png)
 

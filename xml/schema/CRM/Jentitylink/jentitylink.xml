@@ -4,7 +4,7 @@
   <base>CRM/Jentitylink</base>
   <class>Jentitylink</class>
   <name>civicrm_jentitylink</name>
-  <comment>Links configured by Joinery Entity Links extension</comment>
+  <comment>Links configured by Entity Navigation Links extension</comment>
   <log>true</log>
 
   <field>

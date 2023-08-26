@@ -71,7 +71,7 @@ function jentitylink_civicrm_enable(): void {
  */
 function jentitylink_civicrm_navigationMenu(&$menu): void {
   _jentitylink_civix_insert_navigation_menu($menu, 'Administer/Customize Data and Screens', [
-    'label' => E::ts('Entity Links'),
+    'label' => E::ts('Entity Navigation Links'),
     'name' => 'jentitylink_list',
     'url' => 'civicrm/admin/jentitylink/manage/links?reset=1&action=browse',
     'permission' => 'administer CiviCRM',

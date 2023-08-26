@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <extension key="com.joineryhq.jentitylink" type="module">
   <file>jentitylink</file>
-  <name>Entity Navigation</name>
-  <description>Facilitates creation of custom action links in search results, contact actions menu, etc.</description>
+  <name>Entity Navigation Links</name>
+  <description>Supports easy creation of custom action links in search results, contact actions menu, etc.</description>
   <license>GPL-3.0</license>
   <maintainer>
     <author>Allen Shaw</author>

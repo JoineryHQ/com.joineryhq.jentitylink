@@ -31,7 +31,7 @@ SET FOREIGN_KEY_CHECKS=1;
 -- *
 -- * civicrm_jentitylink
 -- *
--- * Links configured by Joinery Entity Links extension
+-- * Links configured by Entity Navigation Links extension
 -- *
 -- *******************************************************/
 CREATE TABLE `civicrm_jentitylink` (
@@ -52,7 +52,7 @@ ENGINE=InnoDB;
 -- *
 -- * civicrm_jentitylink_op
 -- *
--- * Relevant op value for Joinery Entity Links
+-- * Relevant op value for Entity Navigation Links
 -- *
 -- *******************************************************/
 CREATE TABLE `civicrm_jentitylink_op` (

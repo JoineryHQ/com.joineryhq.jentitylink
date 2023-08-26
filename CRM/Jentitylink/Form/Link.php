@@ -19,13 +19,13 @@ class CRM_Jentitylink_Form_Link extends CRM_Admin_Form {
   public function buildQuickForm() {
     parent::buildQuickForm();
     if ($this->_action & CRM_Core_Action::DELETE) {
-      CRM_Utils_System::setTitle('Delete Entity Link');
+      CRM_Utils_System::setTitle('Delete Entity Navigation Link');
     }
     elseif ($this->_action & CRM_Core_Action::UPDATE) {
-      CRM_Utils_System::setTitle('Edit Entity Link');
+      CRM_Utils_System::setTitle('Edit Entity Navigation Link');
     }
     elseif ($this->_action & CRM_Core_Action::ADD) {
-      CRM_Utils_System::setTitle('Create Entity Link');
+      CRM_Utils_System::setTitle('Create Entity Navigation Link');
     }
 
 

@@ -3,13 +3,13 @@
   <item>
     <path>civicrm/admin/jentitylink/manage/links</path>
     <page_callback>CRM_Jentitylink_Page_Links</page_callback>
-    <title>Entity Links</title>
+    <title>Entity Navigation Links</title>
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
   <item>
     <path>civicrm/admin/jentitylink/link/info</path>
     <page_callback>CRM_Jentitylink_Page_LinkInfo</page_callback>
-    <title>Entity Links: Context Inspector</title>
+    <title>Entity Navigation Links: Context Inspector</title>
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
 </menu>

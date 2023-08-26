@@ -4,7 +4,7 @@
   <base>CRM/Jentitylink</base>
   <class>JentitylinkOp</class>
   <name>civicrm_jentitylink_op</name>
-  <comment>Relevant op value for Joinery Entity Links</comment>
+  <comment>Relevant op value for Entity Navigation Links</comment>
   <log>true</log>
 
   <field>

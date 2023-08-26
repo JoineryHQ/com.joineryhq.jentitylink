@@ -2,13 +2,13 @@
   {include file="CRM/Jentitylink/Form/Link.tpl"}
 {else}
   <div class="help">
-    <p>{ts}Manage your Entity Links.{/ts}</p>
+    <p>{ts}Manage your Entity Navigation Links.{/ts}</p>
   </div>
 
   <div class="crm-content-block crm-block">
     {if $rows}
       <div class="action-link">
-        {crmButton p="civicrm/admin/jentitylink/manage/links" q="action=add&reset=1" icon="plus-circle"}{ts}Add Entity Link{/ts}{/crmButton}
+        {crmButton p="civicrm/admin/jentitylink/manage/links" q="action=add&reset=1" icon="plus-circle"}{ts}Add Entity Navigation Link{/ts}{/crmButton}
       </div>
 
       <div id="ltype">
@@ -61,7 +61,7 @@
       </div>
     {/if}
     <div class="action-link">
-      {crmButton p="civicrm/admin/jentitylink/manage/links" q="action=add&reset=1" icon="plus-circle"}{ts}Add Entity Link{/ts}{/crmButton}
+      {crmButton p="civicrm/admin/jentitylink/manage/links" q="action=add&reset=1" icon="plus-circle"}{ts}Add Entity Navigation Link{/ts}{/crmButton}
     </div>
   </div>
 
@@ -69,7 +69,7 @@
     <div class="crm-accordion-header">{ts}Context Inspector{/ts}: <span id="jentitylink-inspector-status-label" class="{$inspectorStatusLabelClass}">{$inspectorStatusLabel}</span></div>
     <div class="crm-accordion-body">
     <p>
-      {ts}It can be hard to pick the right context when configuring an Entity Link. The Context Inspector will add helpful information in the live CiviCRM interface at places where Entity Links could place your configured links.{/ts}
+      {ts}It can be hard to pick the right context when configuring an Entity Navigation Link. The Context Inspector will add helpful information in the live CiviCRM interface at places where Entity Navigation Links could place your configured links.{/ts}
     </p>
       {crmButton id="inspectorButton" p="civicrm/admin/jentitylink/manage/links" q="action=browse&reset=1&setInspector=$inspectorButtonSetValue" icon="$inspectorButtonIcon" class="no-popup inspector-set-status-$inspectorButtonSetValue"}{$inspectorButtonLabel}{/crmButton}
     <div class="clear"></div>
