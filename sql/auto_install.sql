@@ -43,7 +43,8 @@ CREATE TABLE `civicrm_jentitylink` (
   `title` varchar(255) COMMENT 'link title attribute',
   `url` varchar(255) COMMENT 'link url',
   `class` varchar(255) COMMENT 'link class attribute',
-  `weight` int unsigned COMMENT 'link weight/order',
+  `weight` int NOT NULL DEFAULT 0 COMMENT 'link weight/order',
+  `is_active` tinyint NOT NULL DEFAULT 1 COMMENT 'is this link active',
   PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB;

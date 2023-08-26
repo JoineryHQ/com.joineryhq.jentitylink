@@ -24,6 +24,7 @@
                 <th id="sortable">{ts}Entity type(s){/ts}</th>
                 <th id="sortable">{ts}Context(s){/ts}</th>
                 <th id="sortable">{ts}Link label{/ts}</th>
+                <th id="sortable">{ts}Weight{/ts}</th>
                 <th></th>
               </tr>
             </thead>
@@ -47,6 +48,7 @@
                     {/foreach}
                   </td>
                   <td class="crm-jentitylink-name" data-field="name">{$row.name}</td>
+                  <td class="crm-jentitylink-weight" data-field="weight">{$row.weight}</td>
                   <td>{$row.extraAction|replace:'xx':$row.id}{$row.action|replace:'xx':$row.id}</td>
                 </tr>
               {/foreach}

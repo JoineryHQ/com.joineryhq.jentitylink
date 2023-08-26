@@ -72,8 +72,18 @@
 
   <field>
     <name>weight</name>
-    <type>int unsigned</type>
+    <type>int</type>
+    <default>0</default>
+    <required>TRUE</required>
     <comment>link weight/order</comment>
+  </field>
+
+  <field>
+    <name>is_active</name>
+    <type>boolean</type>
+    <default>1</default>
+    <required>TRUE</required>
+    <comment>is this link active</comment>
   </field>
 
 
