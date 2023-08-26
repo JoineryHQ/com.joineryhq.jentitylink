@@ -25,16 +25,16 @@ class CRM_Jentitylink_Linkbuilder {
       ->addWhere('op', '=', $op)
       ->addChain('jentitylink', \Civi\Api4\Jentitylink::get()
         ->setCheckPermissions(FALSE)
-//        ->addWhere('id', '=', '$jentitylink_id')
+        ->addWhere('id', '=', '$jentitylink_id')
         ->addWhere('entity_name', '=', $objectName),
       0)
       ->execute();
     foreach ($jentitylinkOps as $jentitylinkOp) {
       $link = $jentitylinkOp['jentitylink'];
       $link['entity_type'] = CRM_Jentitylink_Util::arrayExplodePaddedTrim($link['entity_type']);
-      
+
       // If user doesn't have permission, skip this link.
-      if (!CRM_Core_Permission::check([$link['permission']])) {
+      if ($link['permission'] && !CRM_Core_Permission::check([$link['permission']])) {
         continue;
       }
 
@@ -76,56 +76,57 @@ class CRM_Jentitylink_Linkbuilder {
    */
   public function getEntityLinks($objectID) {
     $entityLinks = [];
-    if (!$this->isObjectNameSupported()) {
+    if ($this->isObjectNameSupported()) {
       // Not all entity types are supported. Those get an empty array.
-      return $entityLinks;
-    }
 
-    if (!$this->needsEntityLoad) {
-      // If links don't vary on a per-entity basis, just return all links.
-      $entityLinks = $this->links;
-    }
-    else {
-      // If we're here it's because we need to vary the links based on entity
-      // properties, so fetch the full entity.
-      $entity = \Civi\Api4\Contact::get()
-        ->setCheckPermissions(FALSE)
-        ->addWhere('id', '=', $objectID)
-        ->execute()
-        ->first();
-      foreach ($this->linkMeta as $linkMetaId => $linkMeta) {
-        $includeLink = FALSE;
-        foreach ($linkMeta['entity_type'] as $limitEntityType) {
-          list($limitContactType, $limitContactSubType) = explode('__', $limitEntityType);
-          if ($limitContactSubType && !empty($entity['contact_sub_type']) && in_array($limitContactSubType, $entity['contact_sub_type'])) {
-            // If this is a limit with a sub-type (e.g. 'Individual: Student'), and the contact
-            // has that sub-type, include the link. (No need to compare on Type if SubType matches,
-            // because all Type and SubType names must be unique.)
-            $includeLink = TRUE;
-          }
-          elseif (empty($limitContactSubType) && empty($entity['contact_sub_type']) && ($entity['contact_type'] == $limitContactType)) {
-            // If this is a limit WITHOUT a sub-type (e.g. 'Individual'), and the contact
-            // has NO sub-type, and the limit matches the contact type, include the link.
-            $includeLink = TRUE;
-          }
-          if ($includeLink) {
-            // We have one matching condition, which is enough, so don't bother
-            // evaluating the rest.
-            $entityLinks[] = $this->links[$linkMetaId];
-            break;                        
+      if (!$this->needsEntityLoad) {
+        // If links don't vary on a per-entity basis, just return all links.
+        $entityLinks = $this->links;
+      }
+      else {
+        // If we're here it's because we need to vary the links based on entity
+        // properties, so fetch the full entity.
+        $entity = \Civi\Api4\Contact::get()
+          ->setCheckPermissions(FALSE)
+          ->addWhere('id', '=', $objectID)
+          ->execute()
+          ->first();
+        foreach ($this->linkMeta as $linkMetaId => $linkMeta) {
+          $includeLink = FALSE;
+          foreach ($linkMeta['entity_type'] as $limitEntityType) {
+            list($limitContactType, $limitContactSubType) = explode('__', $limitEntityType);
+            if ($limitContactSubType && !empty($entity['contact_sub_type']) && in_array($limitContactSubType, $entity['contact_sub_type'])) {
+              // If this is a limit with a sub-type (e.g. 'Individual: Student'), and the contact
+              // has that sub-type, include the link. (No need to compare on Type if SubType matches,
+              // because all Type and SubType names must be unique.)
+              $includeLink = TRUE;
+            }
+            elseif (empty($limitContactSubType) && empty($entity['contact_sub_type']) && ($entity['contact_type'] == $limitContactType)) {
+              // If this is a limit WITHOUT a sub-type (e.g. 'Individual'), and the contact
+              // has NO sub-type, and the limit matches the contact type, include the link.
+              $includeLink = TRUE;
+            }
+            if ($includeLink) {
+              // We have one matching condition, which is enough, so don't bother
+              // evaluating the rest.
+              $entityLinks[$linkMetaId] = $this->links[$linkMetaId];
+              break;
+            }
           }
         }
       }
-    }
-    foreach ($entityLinks as $linkId => &$link) {
-      if ($this->linkMeta[$linkId]['is_eid_replace']) {
-        // Modify the link url by replacing '%%eid%%' with the entity id.
-        // Unfortunately, CiviCRM core seems to handle %% repladements
-        // differently in different contexts, so we just do our own replacement here.
-        $replaceValues = ['eid' => $objectID];
-        CRM_Core_Action::replace($link['url'], $replaceValues);
+      foreach ($entityLinks as $linkId => &$link) {
+        if ($this->linkMeta[$linkId]['is_eid_replace']) {
+          // Modify the link url by replacing '%%eid%%' with the entity id.
+          // Unfortunately, CiviCRM core seems to handle %% repladements
+          // differently in different contexts, so we just do our own replacement here.
+          $replaceValues = ['eid' => $objectID];
+          CRM_Core_Action::replace($link['url'], $replaceValues);
+        }
       }
     }
+    // Insert a Context Inspector link (maybe).
+    $entityLinks[] = CRM_Jentitylink_Util::buildInspectionLink($this->op, $this->objectName, $objectID, $this->links);
     return $entityLinks;
   }
 

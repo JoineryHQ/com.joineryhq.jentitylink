@@ -18,12 +18,36 @@ function jentitylink_civicrm_links(string $op, string $objectName, $objectID, ar
   }
   $newLinks = $linkBuilders[$key]->getEntityLinks($objectID);
   $links = array_merge($links, $newLinks);
-  
-  // Also add debugging/inspection links if so configured
-  if($inspectionLink = CRM_Jentitylink_Util::buildInspectionLink($op, $objectName, $objectID, $links, $mask, $values)) {
-    $links[] = $inspectionLink;
+}
+
+/**
+ * Implements hook_civicrm_summaryActions().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_summaryActions/
+ */
+function jentitylink_civicrm_summaryActions(&$links, $objectID): void {
+  $objectName = 'Contact';
+  static $linkBuilders = [];
+  $ops = [
+    'entitylink.contact.summary.other',
+    'entitylink.contact.summary.main',
+  ];
+  foreach ($ops as $op) {
+    $key = "$op|Contact";
+    if (!isset($linkBuilders[$key])) {
+      $linkBuilders[$key] = new CRM_Jentitylink_Linkbuilder($op, $objectName);
+    }
+    $newLinks = $linkBuilders[$key]->getEntityLinks($objectID);
+    foreach ($newLinks as &$newLink) {
+      $newLink = CRM_Jentitylink_Util::renameLinkParams($newLink, 'hook_civicrm_summaryActions');
+    }
+    if ($op == 'entitylink.contact.summary.other') {
+      $links['otherActions'] = array_merge($links['otherActions'], $newLinks);
+    }
+    else {
+      $links = array_merge($links, $newLinks);
+    }
   }
-  
 }
 
 /**

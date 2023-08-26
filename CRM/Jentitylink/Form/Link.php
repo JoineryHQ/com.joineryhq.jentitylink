@@ -89,6 +89,8 @@ class CRM_Jentitylink_Form_Link extends CRM_Admin_Form {
         [
           'contact.selector.actions' => 'contact.selector.actions',
           'view.contact.activity' => 'view.contact.activity',
+          'entitylink.contact.summary.main' => 'entitylink.contact.summary.main',
+          'entitylink.contact.summary.other' => 'entitylink.contact.summary.other',
         ],
         // is required
         FALSE,
@@ -228,12 +230,14 @@ class CRM_Jentitylink_Form_Link extends CRM_Admin_Form {
       $link = _jentitylink_civicrmapi('Jentitylink', 'create', $apiParams);
 
       // Identify and remove any jentitylinkOp records, because we'll add new ones as submitted.
-      $apiParams = [
-        'jentitylink_id' => $this->_id,
-      ];
-      $existingLinkOps = _jentitylink_civicrmapi('JentitylinkOp', 'get', $apiParams);
-      foreach ($existingLinkOps['values'] as $linkOp) {
-        $result = _jentitylink_civicrmapi('JentitylinkOp', 'delete', ['id' => $linkOp['id']]);
+      if ($this->_id) {
+        $apiParams = [
+          'jentitylink_id' => $this->_id,
+        ];
+        $existingLinkOps = _jentitylink_civicrmapi('JentitylinkOp', 'get', $apiParams);
+        foreach ($existingLinkOps['values'] as $linkOp) {
+          $result = _jentitylink_civicrmapi('JentitylinkOp', 'delete', ['id' => $linkOp['id']]);
+        }
       }
 
       foreach ($submitted['ops'] as $op) {
