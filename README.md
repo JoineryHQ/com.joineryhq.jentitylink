@@ -2,53 +2,48 @@
 
 ![Screenshot](/images/screenshot.png)
 
-(*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
+Easily add navigation links to various entity-specific contexts in CiviCRM:
+
+* Search results
+* Entity listings
+* Contact summary "Actions" menu
+
+Currently supports the following entities:
+
+* Contact
 
 The extension is licensed under [GPL-3.0](LICENSE.txt).
 
 ## Requirements
 
 * PHP v7.4+
-* CiviCRM (*FIXME: Version number*)
+* CiviCRM >= 5.58.1
 
-## Installation (Web UI)
+## Installation
 
 Learn more about installing CiviCRM extensions in the [CiviCRM Sysadmin Guide](https://docs.civicrm.org/sysadmin/en/latest/customize/extensions/).
 
-## Installation (CLI, Zip)
+## Usage
 
-Sysadmins and developers may download the `.zip` file for this extension and
-install it with the command-line tool [cv](https://github.com/civicrm/cv).
+* Once installed, the configuration is available at Administer > Customize Data > Entity Navigation Links
+* On the configuration page, enable the Context Inspector to add live help links in the various entity-specific 
+  contexts in which thie extension could insert links.
 
-```bash
-cd <extension-dir>
-cv dl com.joineryhq.jentitylink@https://github.com/FIXME/com.joineryhq.jentitylink/archive/master.zip
-```
-or
-```bash
-cd <extension-dir>
-cv dl com.joineryhq.jentitylink@https://lab.civicrm.org/extensions/com.joineryhq.jentitylink/-/archive/main/com.joineryhq.jentitylink-main.zip
-```
+## Improvements welcome
 
-## Installation (CLI, Git)
+This extension could support many more entity types. The author welcomes code contributions to add such support.
 
-Sysadmins and developers may clone the [Git](https://en.wikipedia.org/wiki/Git) repo for this extension and
-install it with the command-line tool [cv](https://github.com/civicrm/cv).
 
-```bash
-git clone https://github.com/FIXME/com.joineryhq.jentitylink.git
-cv en jentitylink
-```
-or
-```bash
-git clone https://lab.civicrm.org/extensions/com.joineryhq.jentitylink.git
-cv en jentitylink
-```
+## Support
+![Joinery](/images/joinery-logo.png)
 
-## Getting Started
+Joinery provides services for CiviCRM including custom extension development, training, data migrations, and more. 
+We aim to keep this extension in good working order, and will do our best to respond appropriately to issues reported
+on its [github issue queue](https://github.com/JoineryHQ/com.joineryhq.jentitylink/issues). In addition, if you
+require urgent or highly customized improvements to this extension, we may suggest conducting a fee-based project
+under our standard commercial terms.  In any case, the place to start is the 
+[github issue queue](https://github.com/JoineryHQ/com.joineryhq.jentitylink/issues) -- let us hear what you need
+and we'll be glad to help however we can.
 
-(* FIXME: Where would a new user navigate to get started? What changes would they see? *)
-
-## Known Issues
-
-(* FIXME *)
+And, if you need help with any other aspect of CiviCRM -- from hosting to custom development to strategic consultation
+and more -- please contact us directly via https://joineryhq.com
