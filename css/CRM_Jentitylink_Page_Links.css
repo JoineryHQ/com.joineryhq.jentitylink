@@ -6,6 +6,13 @@
   background-color: green;
 }
 
+#jentitylink-inspector-status-label {
+  background: white;
+  padding: 0.25em;
+  border: 1px solid;
+  margin: 0.25em;
+  display: inline-block;
+}
 #jentitylink-inspector-status-label.status-0 {
   color: #cd0a0a;
 }
