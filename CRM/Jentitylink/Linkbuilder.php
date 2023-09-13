@@ -126,7 +126,9 @@ class CRM_Jentitylink_Linkbuilder {
       }
     }
     // Insert a Context Inspector link (maybe).
-    $entityLinks[] = CRM_Jentitylink_Util::buildInspectionLink($this->op, $this->objectName, $objectID, $this->links);
+    if ($inspectionLink = CRM_Jentitylink_Util::buildInspectionLink($this->op, $this->objectName, $objectID, $this->links)) {
+      $entityLinks[] = $inspectionLink;
+    }
     return $entityLinks;
   }
 

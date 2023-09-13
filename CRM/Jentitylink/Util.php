@@ -54,7 +54,7 @@ class CRM_Jentitylink_Util {
       return $link;
     }
     else {
-      return [];
+      return NULL;
     }
   }
 
